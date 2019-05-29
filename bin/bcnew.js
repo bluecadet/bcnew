@@ -29,9 +29,13 @@ if ( config.isDrupal ) {
   if ( config.isPantheon ) {
     config.themePath = `${config.curPath}/web/themes/custom`;
     config.modulePath = `${config.curPath}/web/modules/custom`;
+    config.gulpThemePath = `/web/themes/custom`;
+    config.gulpModulesPath = `/web/modules/custom`;
   } else {
     config.themePath = `${config.curPath}/themes/custom`;
     config.modulePath = `${config.curPath}/modules/custom`;
+    config.gulpThemePath = `/themes/custom`;
+    config.gulpModulesPath = `/modules/custom`;
   }
 
 } else if ( config.isWordPress ) {
@@ -39,9 +43,13 @@ if ( config.isDrupal ) {
   if ( config.isPantheon ) {
     config.themePath = `${config.curPath}/web/wp-content/themes`;
     config.modulePath = `${config.curPath}/web/wp-content/plugins`;
+    config.gulpThemePath = `/web/wp-content/themes`;
+    config.gulpModulesPath = `/web/wp-content/plugins`;
   } else {
     config.themePath = `${config.curPath}/wp-content/themes`;
     config.modulePath = `${config.curPath}/wp-content/plugins`;
+    config.gulpThemePath = `/wp-content/themes`;
+    config.gulpModulesPath = `/wp-content/plugins`;
   }
 
 }
@@ -58,10 +66,23 @@ const settings = [
 
 qoa.prompt(settings)
   .then(response => {
-    config.project = response.project.toLowerCase();
+    let projectName        = response.project;
+    let projectMachineName = projectName.toLowerCase();
+    projectMachineName     = projectMachineName.replace(/-/g, '_');
+    projectMachineName     = projectMachineName.replace(/ /g, '_');
+
+    config.project = projectMachineName;
+    config.project_hyphenated = projectMachineName.replace(/_/g, '-');
+    config.project_title_case = projectName.replace(/\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
     config.tempDir = `${config.tempDir}/${config.project}`;
     fsx.ensureDirSync(config.tempDir);
     fsx.emptyDirSync(config.tempDir);
+
+    // console.log(config);
 
     // Build out project
     builder(config);
