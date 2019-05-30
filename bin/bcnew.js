@@ -12,7 +12,7 @@ const builder = require('../lib/build.js');
 
 let config = {
   curPath: process.cwd(),
-  tempDir: path.join(os.homedir(), '.bcnew'),
+  baseTempDir: path.join(os.homedir(), '.bcnew')
 };
 
 config.isPantheon = fs.existsSync(`${config.curPath}/web`);
@@ -21,7 +21,7 @@ config.isWordPress = config.isPantheon ? fs.existsSync(`${config.curPath}/web/wp
 
 
 // Create a directory for temp storage
-fsx.ensureDirSync(config.tempDir);
+fsx.ensureDirSync(config.baseTempDir);
 
 // Setup theme and module dirs
 if ( config.isDrupal ) {
@@ -78,12 +78,13 @@ qoa.prompt(settings)
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       }
     );
-    config.tempDir = `${config.tempDir}/${config.project}`;
+    config.tempDir = `${config.baseTempDir}/${config.project}`;
     fsx.ensureDirSync(config.tempDir);
     fsx.emptyDirSync(config.tempDir);
 
-    // console.log(config);
-
     // Build out project
-    builder(config);
+    builder(config)
+      .then(() => {
+        fsx.removeSync(config.baseTempDir);
+      });
   });
