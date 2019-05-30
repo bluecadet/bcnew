@@ -29,13 +29,13 @@ if ( config.isDrupal ) {
   if ( config.isPantheon ) {
     config.themePath = `${config.curPath}/web/themes/custom`;
     config.modulePath = `${config.curPath}/web/modules/custom`;
-    config.gulpThemePath = `/web/themes/custom`;
-    config.gulpModulesPath = `/web/modules/custom`;
+    config.gulpThemePath = `web/themes/custom`;
+    config.gulpModulesPath = `web/modules/custom`;
   } else {
     config.themePath = `${config.curPath}/themes/custom`;
     config.modulePath = `${config.curPath}/modules/custom`;
-    config.gulpThemePath = `/themes/custom`;
-    config.gulpModulesPath = `/modules/custom`;
+    config.gulpThemePath = `themes/custom`;
+    config.gulpModulesPath = `modules/custom`;
   }
 
 } else if ( config.isWordPress ) {
@@ -43,13 +43,13 @@ if ( config.isDrupal ) {
   if ( config.isPantheon ) {
     config.themePath = `${config.curPath}/web/wp-content/themes`;
     config.modulePath = `${config.curPath}/web/wp-content/plugins`;
-    config.gulpThemePath = `/web/wp-content/themes`;
-    config.gulpModulesPath = `/web/wp-content/plugins`;
+    config.gulpThemePath = `web/wp-content/themes`;
+    config.gulpModulesPath = `web/wp-content/plugins`;
   } else {
     config.themePath = `${config.curPath}/wp-content/themes`;
     config.modulePath = `${config.curPath}/wp-content/plugins`;
-    config.gulpThemePath = `/wp-content/themes`;
-    config.gulpModulesPath = `/wp-content/plugins`;
+    config.gulpThemePath = `wp-content/themes`;
+    config.gulpModulesPath = `wp-content/plugins`;
   }
 
 }
@@ -81,6 +81,7 @@ qoa.prompt(settings)
     config.tempDir = `${config.baseTempDir}/${config.project}`;
     fsx.ensureDirSync(config.tempDir);
     fsx.emptyDirSync(config.tempDir);
+
 
     // Build out project
     builder(config)
