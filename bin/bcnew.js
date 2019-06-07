@@ -92,12 +92,12 @@ qoa.prompt(settings)
     fsx.emptyDirSync(config.tempDir);
 
     getComponents(config)
-      .then(() => {
+      .then((components) => {
         console.log('done');
-        // builder(config)
-        //   .then(() => {
-        //     fsx.removeSync(config.baseTempDir);
-        //   });
+        builder(config, components)
+          .then(() => {
+            fsx.removeSync(config.baseTempDir);
+          });
       });
 
 

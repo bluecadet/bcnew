@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "",
   "bugs": {
-    "url" : "https://github.com/bluecadet/bcnew/issues"
+    "url": "https://github.com/bluecadet/bcnew/issues"
   },
   "repository": "github:bluecadet/bcnew",
   "main": "index.js",
@@ -20,6 +20,7 @@
     "chalk": "^2.4.2",
     "download-git-repo": "^2.0.0",
     "fs-extra": "^8.0.1",
+    "multiselect-prompt": "^0.3.1",
     "qoa": "^0.2.0",
     "yargs": "^13.2.4"
   }
