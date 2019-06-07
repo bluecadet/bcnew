@@ -6,9 +6,10 @@ const fs = require('fs');
 const chalk = require('chalk');
 const fsx = require('fs-extra');
 const dlrepo = require('download-git-repo');
-const args = require('yargs').argv;
+// const args = require('yargs').argv;
 const qoa = require('qoa');
 const builder = require('../lib/build.js');
+const getComponents = require('../lib/getComponents.js');
 
 let config = {
   curPath: process.cwd(),
@@ -59,8 +60,15 @@ if ( config.isDrupal ) {
 const settings = [
   {
     type: 'input',
-    query: 'Project Name:',
+    query: chalk.yellow('Project Name: '),
     handle: 'project'
+  },
+  {
+    type: 'confirm',
+    query: 'Add base fractal components?',
+    handle: 'add',
+    accept: 'y',
+    deny: 'n'
   }
 ];
 
@@ -79,13 +87,25 @@ qoa.prompt(settings)
       }
     );
     config.tempDir = `${config.baseTempDir}/${config.project}`;
+    config.addComponents = response.add;
     fsx.ensureDirSync(config.tempDir);
     fsx.emptyDirSync(config.tempDir);
 
-
-    // Build out project
-    builder(config)
+    getComponents(config)
       .then(() => {
-        fsx.removeSync(config.baseTempDir);
+        console.log('done');
+        // builder(config)
+        //   .then(() => {
+        //     fsx.removeSync(config.baseTempDir);
+        //   });
       });
+
+
+    // // Build out project
+    // builder(config)
+    //   .then(() => {
+
+
+    //     fsx.removeSync(config.baseTempDir);
+    //   });
   });
